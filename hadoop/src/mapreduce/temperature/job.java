@@ -1,12 +1,14 @@
 /**
- * mapreduce 本地与运行方式（在jobhistory http://192.168.229.168:8088 中没有记录）
- * 注意：
- * 	1.需要指定hdfs的入口和resourcemanager的节点地址
- * 	2.不要在scr文件夹下存放服务器集群的配置文件
- * 
- * （上传作业到服务器的方式暂时没有解决，可采用将作业打成jar包，
- * 	发送到服务器用 hadoop jar wordcount.jar mapreduce.WordCount 命令执行（以本作业为例））
- * 
+ * 月温度top 2
+ * 题目：
+ * 	给出日期，求每月温度前2个
+ * 方法：
+ * 	设计一个  weather 的  bean 实现WritableComparable<Weather>接口，重写比较方法。
+ * 	重写partition类，重定义分组方式。（决定数据由哪个reducer来处理）
+ * 	继承WritableComparator类，重定义mapper端的merge的合并方法，按照年份降序，温度升序的方法。
+ * 		（原本默认merge方法是按照字典序排序，新方法使年份可排序。）
+ * 	继承WritableComparator类，重定义reducer端的group的分组方法，由于此时温度为value的值，所以值对年份排序即可。
+ * 		（原本默认group方法是按照字典序排序，新方法使年份可排序。）
  * 
  */
 package mapreduce.temperature;
@@ -18,6 +20,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -61,11 +64,11 @@ public class job {
 		// 指定reducer类
 		job.setReducerClass(reducer.class);
 		// 获取作业对象文件地址
-		FileInputFormat.addInputPath(job, new Path("/temperature/input/temperature"));
+		FileInputFormat.addInputPath(job, new Path("/mapreduce/temperature/input/temperature"));
 		
 		System.out.println("-------3");
 		// 输出作业结果到HDFS
-		Path outputpath = new Path("/temperature/output/");
+		Path outputpath = new Path("/mapreduce/temperature/output/");
 		FileSystem fs = FileSystem.get(conf);
 		if (fs.exists(outputpath)) {
 			fs.delete(outputpath, true);

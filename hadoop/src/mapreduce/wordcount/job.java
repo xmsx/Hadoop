@@ -54,11 +54,11 @@ public class job {
 		// 指定reducer类
 		job.setReducerClass(reducer.class);
 		// 获取作业对象文件地址
-		FileInputFormat.addInputPath(job, new Path("/wordcount/input/WordInput"));
+		FileInputFormat.addInputPath(job, new Path("/mapreduce/wordcount/input/WordInput"));
 		
 		System.out.println("-------3");
 		// 输出作业结果到HDFS
-		Path outputpath = new Path("/wordcount/output/");
+		Path outputpath = new Path("/mapreduce/wordcount/output/");
 		FileSystem fs = FileSystem.get(conf);
 		if (fs.exists(outputpath)) {
 			fs.delete(outputpath, true);

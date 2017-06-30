@@ -33,22 +33,23 @@ public class HadoopDemo {
 	
 	
 	public void mkdir() throws IOException {
-		Path path = new Path("/tmp");
+		Path path = new Path("/test");
 		fs.mkdirs(path);
 	}
 	
 	public void upload() throws IOException {
-		Path path = new Path("/tmp/test");
+		Path path = new Path("/test/test.jpg");
 		FSDataOutputStream fsos = fs.create(path);
-		FileUtils.copyFile(new File("C://Users/MFS/Desktop/WordInput"), fsos);
+		FileUtils.copyFile(new File("C://Users/MFS/Desktop/test.jpg"), fsos);
 	}
-	@Test
+	
 	public void download() throws IOException {
-		Path path = new Path("/tmp/test");
+		Path path = new Path("/test/test.jpg");
 		FSDataInputStream fsis = fs.open(path);
-		FileUtils.copyInputStreamToFile(fsis, new File("C://Users/MFS/Desktop/testdownload.txt"));
+		FileUtils.copyInputStreamToFile(fsis, new File("C://Users/MFS/Desktop/test.jpg"));
 		
 	}
+	@Test
 	public void list() throws FileNotFoundException, IOException{
 		Path path = new Path("/test");
 		FileStatus[] sfs = fs.listStatus(path);

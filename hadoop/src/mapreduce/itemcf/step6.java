@@ -98,6 +98,22 @@ public class step6 {
 		private String uid;
 		private double num;
 
+		public String getUid() {
+			return uid;
+		}
+
+		public void setUid(String uid) {
+			this.uid = uid;
+		}
+
+		public double getNum() {
+			return num;
+		}
+
+		public void setNum(double num) {
+			this.num = num;
+		}
+		
 		@Override
 		public void write(DataOutput out) throws IOException {
 			out.writeUTF(uid);
@@ -117,22 +133,6 @@ public class step6 {
 				return Double.compare(this.num, o.getNum());
 			}
 			return r;
-		}
-
-		public String getUid() {
-			return uid;
-		}
-
-		public void setUid(String uid) {
-			this.uid = uid;
-		}
-
-		public double getNum() {
-			return num;
-		}
-
-		public void setNum(double num) {
-			this.num = num;
 		}
 
 	}
